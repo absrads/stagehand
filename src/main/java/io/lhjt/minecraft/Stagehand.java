@@ -1,6 +1,9 @@
 package io.lhjt.minecraft;
 
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.annotation.permission.ChildPermission;
+import org.bukkit.plugin.java.annotation.permission.Permission;
 import org.bukkit.plugin.java.annotation.plugin.ApiVersion;
 import org.bukkit.plugin.java.annotation.plugin.ApiVersion.Target;
 import org.bukkit.plugin.java.annotation.plugin.Description;
@@ -11,6 +14,9 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 @ApiVersion(value = Target.v1_17)
 @Author(value = "lhjt")
 @Description(value = "A management plugin to set the scene of the server.")
+@Permission(name = "stagehand.borderControl", desc = "Allow managing of stagehand border controls", defaultValue = PermissionDefault.FALSE)
+@Permission(name = "stagehand.*", desc = "Wildcard permission", defaultValue = PermissionDefault.FALSE, children = {
+        @ChildPermission(name = "stagehand.borderControl") })
 public class Stagehand extends JavaPlugin {
     @Override
     public void onEnable() {
