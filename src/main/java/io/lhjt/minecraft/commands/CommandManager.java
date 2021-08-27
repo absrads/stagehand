@@ -10,6 +10,6 @@ public class CommandManager {
      * @param plugin
      */
     public static void registerCommands(@NotNull JavaPlugin plugin) {
-        plugin.getCommand("init").setExecutor(new InitCommand());
+        plugin.getCommand("init").setExecutor(new InitCommand(plugin));
     }
 }
