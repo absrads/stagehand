@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.annotation.plugin.Plugin;
 import org.bukkit.plugin.java.annotation.plugin.author.Author;
 
 import io.lhjt.minecraft.commands.CommandManager;
+import io.lhjt.minecraft.listeners.ListenerManager;
 
 @Plugin(name = "stagehand", version = "0.2.0-alpha")
 @ApiVersion(value = Target.v1_17)
@@ -31,6 +32,9 @@ public class Stagehand extends JavaPlugin {
 
         // Register all commands
         CommandManager.registerCommands(this);
+
+        // Register all listeners
+        this.getServer().getPluginManager().registerEvents(new ListenerManager(this), this);
     }
 
     @Override
