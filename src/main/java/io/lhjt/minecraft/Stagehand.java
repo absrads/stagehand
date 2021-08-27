@@ -14,13 +14,22 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 public class Stagehand extends JavaPlugin {
     @Override
     public void onEnable() {
-        // TODO Auto-generated method stub
         super.onEnable();
+        this.loadConfig();
     }
 
     @Override
     public void onDisable() {
-        // TODO Auto-generated method stub
         super.onDisable();
+    }
+
+    private void loadConfig() {
+        var config = this.getConfig();
+
+        // Set the defaults
+        config.addDefault("enabled", false); // Whether the plugin is enabled
+
+        config.options().copyDefaults(true);
+        this.saveConfig();
     }
 }
