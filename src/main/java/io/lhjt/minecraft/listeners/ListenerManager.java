@@ -16,6 +16,6 @@ public class ListenerManager implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        BorderControl.handleEvent(event);
+        BorderControl.handleEvent(event, this.plugin);
     }
 }
