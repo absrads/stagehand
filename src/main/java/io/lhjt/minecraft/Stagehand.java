@@ -15,7 +15,7 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 import io.lhjt.minecraft.commands.CommandManager;
 import io.lhjt.minecraft.listeners.ListenerManager;
 
-@Plugin(name = "stagehand", version = "0.2.0-alpha")
+@Plugin(name = "stagehand", version = "0.3.0-alpha")
 @ApiVersion(value = Target.v1_17)
 @Author(value = "lhjt")
 @Description(value = "A management plugin to set the scene of the server.")
