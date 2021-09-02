@@ -15,8 +15,6 @@ import org.bukkit.plugin.java.annotation.plugin.Description;
 import org.bukkit.plugin.java.annotation.plugin.Plugin;
 import org.bukkit.plugin.java.annotation.plugin.author.Author;
 
-import java.util.ArrayList;
-
 @Plugin(name = "stagehand", version = "0.3.0-alpha")
 @ApiVersion(value = Target.v1_17)
 @Author(value = "lhjt")
