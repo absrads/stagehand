@@ -31,7 +31,7 @@ public class BorderControl {
         }
     }
 
-    private static double calculateBorderDiameter() {
+    public static double calculateBorderDiameter() {
         final var playersCount = Bukkit.getOfflinePlayers().length - 1;
         return playersCount < 5 ? 2000 : playersCount * 500;
     }
