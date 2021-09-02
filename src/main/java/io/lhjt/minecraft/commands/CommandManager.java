@@ -7,7 +7,7 @@ public class CommandManager {
     /**
      * Register all the commands for this plugin.
      *
-     * @param plugin
+     * @param plugin The instance of the JavaPlugin the commandManager is linked to.
      */
     public static void registerCommands(@NotNull JavaPlugin plugin) {
         plugin.getCommand("init").setExecutor(new InitCommand(plugin));

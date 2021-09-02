@@ -18,14 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InitCommand implements TabExecutor {
-    final private JavaPlugin plugin;
+    private final JavaPlugin plugin;
 
     public InitCommand(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String alias,
+            String[] args) {
         // Set config to enabled if it isn't already
         plugin.getConfig().set("enabled", true);
         plugin.saveConfig();
@@ -64,9 +65,10 @@ public class InitCommand implements TabExecutor {
     }
 
     @Override
-    public @Nullable List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd,
+            @NotNull String alias, String[] args) {
         // There is no tab completion for this command at the moment
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
 }

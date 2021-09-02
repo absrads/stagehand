@@ -1,8 +1,8 @@
 package io.lhjt.minecraft.modules;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.NamedTextColor;
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -10,22 +10,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-import java.util.List;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public final class RandomSpawn {
     private static JavaPlugin plugin;
 
     public static List<String> defaultBlacklist = Arrays.asList(
-            "lava",
-            "water",
-            "acacia_leaves",
-            "azalea_leaves",
-            "birch_leaves",
-            "dark_oak_leaves",
-            "flowering_azalea_leaves",
-            "oak_leaves",
-            "spruce_leaves"
+        "lava",
+        "water",
+        "acacia_leaves",
+        "azalea_leaves",
+        "birch_leaves",
+        "dark_oak_leaves",
+        "flowering_azalea_leaves",
+        "oak_leaves",
+        "spruce_leaves"
     );
 
     public static void handleEvent(PlayerJoinEvent event, JavaPlugin plugin) {
@@ -48,7 +49,9 @@ public final class RandomSpawn {
             int zCoordinate = randomNumber(-worldBorder, worldBorder);
             int yCoordinate = world.getHighestBlockYAt(xCoordinate, zCoordinate);
 
-            if (!plugin.getConfig().getStringList("spawnRandomizer.blacklist").contains(new Location(world, xCoordinate, yCoordinate, zCoordinate).getBlock().getType().name().toLowerCase())) {
+            if (!plugin.getConfig().getStringList("spawnRandomizer.blacklist")
+                    .contains(new Location(world, xCoordinate, yCoordinate, zCoordinate).getBlock().getType().name()
+                            .toLowerCase())) {
                 player.teleport(new Location(world, xCoordinate + 0.5, yCoordinate + 1, zCoordinate + 0.5));
                 return;
             } else {
@@ -56,7 +59,11 @@ public final class RandomSpawn {
             }
         }
 
-        final TextComponent textComponent = Component.text("We were unable to find you a valid spawn location, please rejoin to try again.", NamedTextColor.RED);
+        final TextComponent textComponent = Component.text(
+            "We were unable to find you a valid spawn location, please rejoin to try again.", 
+            NamedTextColor.RED
+        );
+
         player.kick(textComponent);
     }
 
