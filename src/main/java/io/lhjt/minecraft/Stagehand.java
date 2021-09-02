@@ -16,7 +16,7 @@ import io.lhjt.minecraft.commands.CommandManager;
 import io.lhjt.minecraft.listeners.ListenerManager;
 import io.lhjt.minecraft.modules.RandomSpawn;
 
-@Plugin(name = "stagehand", version = "0.5.0")
+@Plugin(name = "stagehand", version = "0.5.1")
 @ApiVersion(value = Target.v1_17)
 @Author(value = "lhjt")
 @Description(value = "A management plugin to set the scene of the server.")

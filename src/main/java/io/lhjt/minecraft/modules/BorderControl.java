@@ -6,8 +6,9 @@ import org.bukkit.World.Environment;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 
 public class BorderControl {
     public static void handleEvent(PlayerJoinEvent event, JavaPlugin plugin) {
@@ -24,14 +25,16 @@ public class BorderControl {
                 }
             }
 
-            var msg = new ComponentBuilder().append("[World Event] ").color(ChatColor.DARK_PURPLE)
-                    .append("The border diameter is now increasing to ").color(ChatColor.LIGHT_PURPLE).bold(false)
-                    .append(String.valueOf(expectedSize)).bold(true).append(" blocks.").bold(false).create();
-            plugin.getServer().broadcast(msg);
+            final var m = Component.text().append(Component.text("[World Event] ").color(NamedTextColor.DARK_PURPLE))
+                    .append(Component.text("The border diameter is now increasing to ")
+                            .color(NamedTextColor.LIGHT_PURPLE))
+                    .append(Component.text(String.valueOf(expectedSize)).decorate(TextDecoration.BOLD))
+                    .append(Component.text(" blocks.")).build();
+            plugin.getServer().broadcast(m);
         }
     }
 
-    private static double calculateBorderDiameter() {
+    public static double calculateBorderDiameter() {
         final var playersCount = Bukkit.getOfflinePlayers().length - 1;
         return playersCount < 5 ? 2000 : playersCount * 500;
     }

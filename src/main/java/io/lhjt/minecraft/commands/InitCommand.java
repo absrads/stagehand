@@ -14,8 +14,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
+import io.lhjt.minecraft.modules.BorderControl;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 
 public class InitCommand implements TabExecutor {
     private final JavaPlugin plugin;
@@ -31,6 +33,21 @@ public class InitCommand implements TabExecutor {
         plugin.getConfig().set("enabled", true);
         plugin.saveConfig();
 
+        final var prefix = Component.text("[Stagehand::BC] ").color(NamedTextColor.LIGHT_PURPLE);
+
+        final var playersCount = Bukkit.getOfflinePlayers().length - 1;
+        var m = Component.text().append(prefix).color(NamedTextColor.AQUA).append(Component.text("Total players: "))
+                .append(Component.text(String.valueOf(playersCount)).decorate(TextDecoration.BOLD)).build();
+        sender.sendMessage(m);
+
+        final var size = BorderControl.calculateBorderDiameter();
+        m = Component.text().append(prefix).color(NamedTextColor.AQUA)
+                .append(Component.text("Setting border diameter to "))
+                .append(Component.text().decorate(TextDecoration.BOLD)
+                        .content(String.valueOf(size) + " (± " + (size / 2) + ")"))
+                .append(Component.text(" blocks.")).build();
+        sender.sendMessage(m);
+
         // Apply border controls
         // Border controls will apply to both the overworld and nether
         // The end will have border restrictions disabled (i.e. set to the max diameter)
@@ -42,15 +59,15 @@ public class InitCommand implements TabExecutor {
                 wb.setSize(30_000_000, 0);
             } else if (env == Environment.NORMAL || env == Environment.NETHER) {
                 wb.setCenter(new Location(world, 0, 0, 0));
-                wb.setSize(2000, 0);
+                wb.setSize(size, 0);
             }
         }
 
         // Send a message to the sender indicate the command has been completed
         // successfully.
-        final TextComponent component = new TextComponent("World border initialisation complete.");
-        component.setColor(ChatColor.GREEN);
-        sender.sendMessage(component);
+        m = Component.text().append(prefix).color(NamedTextColor.GREEN).append(Component.text("Operation succeeded."))
+                .build();
+        sender.sendMessage(m);
         return true;
     }
 
