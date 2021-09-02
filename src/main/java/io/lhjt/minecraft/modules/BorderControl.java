@@ -1,12 +1,11 @@
 package io.lhjt.minecraft.modules;
 
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.World.Environment;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 
 public class BorderControl {
     final public static void handleEvent(PlayerJoinEvent event, JavaPlugin plugin) {
