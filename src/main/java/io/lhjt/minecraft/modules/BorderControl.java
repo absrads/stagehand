@@ -17,7 +17,7 @@ public class BorderControl {
         final double expectedSize = BorderControl.calculateBorderDiameter();
         final double currentSize = Bukkit.getWorlds().get(0).getWorldBorder().getSize();
 
-        if (currentSize != expectedSize) {
+        if (currentSize < expectedSize) {
             for (final World world : Bukkit.getWorlds()) {
                 if (world.getEnvironment() == Environment.NORMAL || world.getEnvironment() == Environment.NETHER) {
                     world.getWorldBorder().setSize(expectedSize, 120);
