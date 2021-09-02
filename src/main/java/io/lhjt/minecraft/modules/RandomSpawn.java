@@ -30,6 +30,9 @@ public final class RandomSpawn {
     );
 
     public static void handleEvent(PlayerJoinEvent event, JavaPlugin plugin) {
+        if (!plugin.getConfig().getBoolean("enabled"))
+            return;
+        
         RandomSpawn.plugin = plugin;
         Player player = event.getPlayer();
 
