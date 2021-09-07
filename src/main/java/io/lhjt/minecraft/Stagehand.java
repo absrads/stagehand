@@ -31,6 +31,9 @@ public class Stagehand extends JavaPlugin {
         super.onEnable();
         this.loadConfig();
 
+        // Validate config
+        this.validateConfig();
+
         // Register all commands
         CommandManager.registerCommands(this);
 
@@ -54,8 +57,18 @@ public class Stagehand extends JavaPlugin {
 
         // Discord Gate
         config.addDefault("discordGate.enabled", false);
+        config.addDefault("discordGate.url", "");
 
         config.options().copyDefaults(true);
         this.saveConfig();
+    }
+
+    private void validateConfig() {
+        // Discord Gate URL
+        final var gateEnabled = this.getConfig().getBoolean("discordGate.enabled");
+        final var url = this.getConfig().getString("discordGate.url");
+        if (gateEnabled && url.isEmpty()) {
+            throw new IllegalArgumentException("Discord Gate URL cannot be empty when Discord Gate is enabled.");
+        }
     }
 }
