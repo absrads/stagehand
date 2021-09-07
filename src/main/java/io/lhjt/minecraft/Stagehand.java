@@ -52,6 +52,9 @@ public class Stagehand extends JavaPlugin {
         config.addDefault("spawnRandomizer.attempts", 10);
         config.addDefault("spawnRandomizer.blacklist", RandomSpawn.defaultBlacklist);
 
+        // Discord Gate
+        config.addDefault("discordGate.enabled", false);
+
         config.options().copyDefaults(true);
         this.saveConfig();
     }

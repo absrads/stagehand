@@ -11,6 +11,10 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 public class DiscordGate {
     public static void handleJoin(PlayerJoinEvent event, JavaPlugin plugin) {
+        // Check if enabled in config
+        if (!plugin.getConfig().getBoolean("discordGate.enabled"))
+            return;
+
         final UUID uuid = event.getPlayer().getUniqueId();
 
         // TODO: Validate uuid against account linking service
