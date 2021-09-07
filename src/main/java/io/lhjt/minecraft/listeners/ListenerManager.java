@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.lhjt.minecraft.modules.BorderControl;
+import io.lhjt.minecraft.modules.DiscordGate;
 import io.lhjt.minecraft.modules.RandomSpawn;
 import io.lhjt.minecraft.modules.SilkSpawner;
 
@@ -20,6 +21,7 @@ public class ListenerManager implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        DiscordGate.handleJoin(event, this.plugin);
         BorderControl.handleEvent(event, this.plugin);
         RandomSpawn.handleEvent(event, this.plugin);
     }
