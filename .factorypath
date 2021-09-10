@@ -26,6 +26,7 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/spigotmc/plugin-annotations/1.2.3-SNAPSHOT/plugin-annotations-1.2.3-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/bukkit/bukkit/1.13-R0.1-SNAPSHOT/bukkit-1.13-R0.1-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/de/tr7zw/item-nbt-api-plugin/2.8.0/item-nbt-api-plugin-2.8.0.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/reflections/reflections/0.9.12/reflections-0.9.12.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/javassist/javassist/3.26.0-GA/javassist-3.26.0-GA.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>
