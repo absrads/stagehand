@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockFace;
@@ -16,10 +17,12 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.javatuples.Pair;
 import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
+import io.lhjt.minecraft.Stagehand;
 import io.lhjt.minecraft.modules.artifacts.utils.LegendaryBase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -42,6 +45,16 @@ public class MagmaBoots extends BaseArtifact implements Listener {
         final var loreTexts = new ArrayList<Component>();
         final var firstLine = Component.text("Comfy!").color(NamedTextColor.DARK_PURPLE);
         loreTexts.add(firstLine);
+        loreTexts.add(Component.text(""));
+        final var secondLine = Component.text("Legendary Gear").color(NamedTextColor.GOLD)
+                .decorate(TextDecoration.BOLD);
+        final var thirdLine = Component.text("- only one piece of legendary").color(NamedTextColor.GOLD)
+                .decoration(TextDecoration.ITALIC, false);
+        final var fourthLine = Component.text("gear can be equipped at once").color(NamedTextColor.GOLD)
+                .decoration(TextDecoration.ITALIC, false);
+        loreTexts.add(secondLine);
+        loreTexts.add(thirdLine);
+        loreTexts.add(fourthLine);
 
         meta.lore(loreTexts);
 
@@ -67,6 +80,7 @@ public class MagmaBoots extends BaseArtifact implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
+        final var plugin = Stagehand.getPlugin(Stagehand.class);
         final var player = e.getPlayer();
         final var boots = player.getInventory().getBoots();
 
@@ -87,6 +101,13 @@ public class MagmaBoots extends BaseArtifact implements Listener {
             final var block = blockBelow.getRelative(pair.getValue0(), 0, pair.getValue1());
             if (block.getType() == Material.LAVA) {
                 block.setType(Material.BASALT);
+                e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.05f, 1.0f);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        block.setType(Material.LAVA);
+                    }
+                }.runTaskLater(plugin, 10 * 20);
             }
         }
     }
