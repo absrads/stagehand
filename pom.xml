@@ -56,6 +56,11 @@
       <artifactId>reflections</artifactId>
       <version>0.9.12</version>
     </dependency>
+    <dependency>
+      <groupId>org.javatuples</groupId>
+      <artifactId>javatuples</artifactId>
+      <version>1.2</version>
+    </dependency>
   </dependencies>
 
   <pluginRepositories>
@@ -144,6 +149,7 @@
               <include>de.tr7zw:item-nbt-api-plugin</include>
               <include>org.reflections:reflections</include>
               <include>org.javassist:javassist</include>
+              <include>org.javatuples:javatuples</include>
             </includes>
           </artifactSet>
         </configuration>

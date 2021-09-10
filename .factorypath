@@ -29,4 +29,5 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/de/tr7zw/item-nbt-api-plugin/2.8.0/item-nbt-api-plugin-2.8.0.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/reflections/reflections/0.9.12/reflections-0.9.12.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/javassist/javassist/3.26.0-GA/javassist-3.26.0-GA.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/javatuples/javatuples/1.2/javatuples-1.2.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>
