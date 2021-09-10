@@ -6,21 +6,23 @@ import org.bukkit.block.CreatureSpawner;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import io.lhjt.minecraft.Stagehand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 
-public class SilkSpawner {
+public class SilkSpawner implements Listener {
     private static String spawnerTypeTag = "silkspawner.type";
 
-    public static void handleBreakEvent(BlockBreakEvent event, JavaPlugin plugin) {
+    @EventHandler
+    public static void handleBreakEvent(BlockBreakEvent event) {
         if (event.isCancelled())
             return;
 
@@ -54,7 +56,8 @@ public class SilkSpawner {
         }
     }
 
-    public static void handlePlaceEvent(BlockPlaceEvent event, JavaPlugin plugin) {
+    @EventHandler
+    public static void handlePlaceEvent(BlockPlaceEvent event) {
         final var block = event.getBlock();
         if (!block.getType().equals(Material.SPAWNER))
             return;

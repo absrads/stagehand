@@ -1,5 +1,6 @@
 package io.lhjt.minecraft.modules;
 
+import java.net.http.WebSocket.Listener;
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,15 +8,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import io.lhjt.minecraft.Stagehand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 
-public final class RandomSpawn {
-    private static JavaPlugin plugin;
+public final class RandomSpawn implements Listener {
+    private JavaPlugin plugin;
 
     public static List<String> defaultBlacklist = Arrays.asList(
         "lava",
@@ -29,11 +32,15 @@ public final class RandomSpawn {
         "spruce_leaves"
     );
 
-    public static void handleEvent(PlayerJoinEvent event, JavaPlugin plugin) {
+    public RandomSpawn() {
+        this.plugin = Stagehand.getPlugin(Stagehand.class);
+    }
+
+    @EventHandler
+    public void handleEvent(PlayerJoinEvent event) {
         if (!plugin.getConfig().getBoolean("enabled"))
             return;
         
-        RandomSpawn.plugin = plugin;
         Player player = event.getPlayer();
 
         if (!player.hasPlayedBefore()) {
@@ -41,7 +48,7 @@ public final class RandomSpawn {
         }
     }
 
-    private static void teleportPlayer(Player player) {
+    private void teleportPlayer(Player player) {
         World world = Bukkit.getWorlds().get(0);
 
         int attemptCounter = 0;
