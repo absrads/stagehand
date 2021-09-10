@@ -3,16 +3,26 @@ package io.lhjt.minecraft.modules;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import io.lhjt.minecraft.Stagehand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
-public class BorderControl {
-    public static void handleEvent(PlayerJoinEvent event, JavaPlugin plugin) {
-        if (!plugin.getConfig().getBoolean("enabled"))
+public class BorderControl implements Listener {
+    private JavaPlugin plugin;
+
+    public BorderControl() {
+        this.plugin = Stagehand.getPlugin(Stagehand.class);
+    }
+
+    @EventHandler
+    public void handleEvent(PlayerJoinEvent event) {
+        if (!this.plugin.getConfig().getBoolean("enabled"))
             return;
 
         final double expectedSize = BorderControl.calculateBorderDiameter();
@@ -30,7 +40,7 @@ public class BorderControl {
                             .color(NamedTextColor.LIGHT_PURPLE))
                     .append(Component.text(String.valueOf(expectedSize)).decorate(TextDecoration.BOLD))
                     .append(Component.text(" blocks.")).build();
-            plugin.getServer().broadcast(m);
+            this.plugin.getServer().broadcast(m);
         }
     }
 
