@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -78,6 +79,9 @@ public class BonkArtifact extends BaseArtifact implements Listener {
         final var victim = (LivingEntity) e.getEntity();
 
         if (!isArtifact(item))
+            return;
+
+        if (e.getCause().equals(DamageCause.THORNS))
             return;
 
         victim.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2 * 20, 2));
