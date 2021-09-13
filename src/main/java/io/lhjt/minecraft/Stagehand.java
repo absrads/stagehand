@@ -16,6 +16,7 @@ import io.lhjt.minecraft.commands.CommandManager;
 import io.lhjt.minecraft.modules.RandomSpawn;
 import io.lhjt.minecraft.modules.artifacts.instatame.Infinibone;
 import io.lhjt.minecraft.modules.artifacts.instatame.Infinifish;
+import io.lhjt.minecraft.modules.artifacts.instatame.Kibble;
 import io.lhjt.minecraft.modules.artifacts.instatame.TrailMix;
 import io.lhjt.minecraft.utils.EventLoader;
 
@@ -46,6 +47,7 @@ public class Stagehand extends JavaPlugin {
         this.getServer().addRecipe(Infinibone.getRecipe());
         this.getServer().addRecipe(Infinifish.getRecipe());
         this.getServer().addRecipe(TrailMix.getRecipe());
+        this.getServer().addRecipe(Kibble.getRecipe());
     }
 
     @Override
