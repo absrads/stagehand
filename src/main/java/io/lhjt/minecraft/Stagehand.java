@@ -13,18 +13,20 @@ import org.bukkit.plugin.java.annotation.plugin.Plugin;
 import org.bukkit.plugin.java.annotation.plugin.author.Author;
 
 import io.lhjt.minecraft.commands.CommandManager;
-import io.lhjt.minecraft.listeners.ListenerManager;
 import io.lhjt.minecraft.modules.RandomSpawn;
+import io.lhjt.minecraft.utils.EventLoader;
 
 @Plugin(name = "stagehand", version = "0.5.2-alpha")
 @ApiVersion(value = Target.v1_17)
 @Author(value = "lhjt")
 @Description(value = "A management plugin to set the scene of the server.")
 @Commands({
-        @Command(name = "init", desc = "Initialise the stagehand border control system.", usage = "/<command>", permission = "stagehand.bordercontrol", permissionMessage = "§cInsufficient privileges to execute this command.", aliases = {}) })
+        @Command(name = "init", desc = "Initialise the stagehand border control system.", usage = "/<command>", permission = "stagehand.bordercontrol", permissionMessage = "§cInsufficient privileges to execute this command.", aliases = {}),
+        @Command(name = "artifact", desc = "Artifact management interface.", usage = "/<command> give <name>", aliases = {}) })
 @Permission(name = "stagehand.bordercontrol", desc = "Allow managing of stagehand border controls", defaultValue = PermissionDefault.FALSE)
+@Permission(name = "stagehand.artifacts", desc = "Allow managing of artifacts", defaultValue = PermissionDefault.FALSE)
 @Permission(name = "stagehand.*", desc = "Wildcard permission", defaultValue = PermissionDefault.FALSE, children = {
-        @ChildPermission(name = "stagehand.bordercontrol") })
+        @ChildPermission(name = "stagehand.bordercontrol"), @ChildPermission(name = "stagehand.artifacts") })
 public class Stagehand extends JavaPlugin {
     @Override
     public void onEnable() {
@@ -38,7 +40,7 @@ public class Stagehand extends JavaPlugin {
         CommandManager.registerCommands(this);
 
         // Register all listeners
-        this.getServer().getPluginManager().registerEvents(new ListenerManager(this), this);
+        EventLoader.loadEvents(this);
     }
 
     @Override

@@ -11,5 +11,6 @@ public class CommandManager {
      */
     public static void registerCommands(@NotNull JavaPlugin plugin) {
         plugin.getCommand("init").setExecutor(new InitCommand(plugin));
+        plugin.getCommand("artifact").setExecutor(new SummonArtifactCommand());
     }
 }
