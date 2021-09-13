@@ -106,6 +106,10 @@ public class BeekeeperHelmet extends BaseArtifact implements Listener {
     @EventHandler // safe bottling + shearing of honey from hives
     public void onPlayerInteract(PlayerInteractEvent e) {
         final var block = e.getClickedBlock();
+
+        if (block == null)
+            return;
+
         final var blockData = block.getBlockData();
         if (!(blockData instanceof Beehive))
             return;
