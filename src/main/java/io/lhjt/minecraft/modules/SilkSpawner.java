@@ -1,24 +1,28 @@
 package io.lhjt.minecraft.modules;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.persistence.PersistentDataType;
 
-import de.tr7zw.nbtapi.NBTItem;
+import io.lhjt.minecraft.Stagehand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 
-public class SilkSpawner {
-    private static String spawnerTypeTag = "stagehand:silkspawner:type";
+public class SilkSpawner implements Listener {
+    private static String spawnerTypeTag = "silkspawner.type";
 
-    public static void handleBreakEvent(BlockBreakEvent event, JavaPlugin plugin) {
+    @EventHandler
+    public static void handleBreakEvent(BlockBreakEvent event) {
         if (event.isCancelled())
             return;
 
@@ -41,30 +45,37 @@ public class SilkSpawner {
             final var comp = Component.text().decoration(TextDecoration.ITALIC, false).content(nameCase).build();
             spawnerMeta.displayName(comp);
 
+            final var container = spawnerMeta.getPersistentDataContainer();
+            final var spawnerTypeKey = new NamespacedKey(Stagehand.getPlugin(Stagehand.class), spawnerTypeTag);
+            container.set(spawnerTypeKey, PersistentDataType.STRING, type.name());
+
             spawnerItem.setItemMeta(spawnerMeta);
 
-            final var nbti = new NBTItem(spawnerItem);
-            nbti.setString(spawnerTypeTag, type.name()); // set spawner type in NBT
-
-            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), nbti.getItem());
+            event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), spawnerItem);
             event.setExpToDrop(0);
         }
     }
 
-    public static void handlePlaceEvent(BlockPlaceEvent event, JavaPlugin plugin) {
+    @EventHandler
+    public static void handlePlaceEvent(BlockPlaceEvent event) {
         final var block = event.getBlock();
         if (!block.getType().equals(Material.SPAWNER))
             return;
 
         // Grab the item that was just placed
-        final var nbti = new NBTItem(event.getItemInHand());
-        if (!nbti.hasKey(spawnerTypeTag))
+        final var item = event.getItemInHand();
+        final var meta = item.getItemMeta();
+        final var container = meta.getPersistentDataContainer();
+        final var spawnerTypeKey = new NamespacedKey(Stagehand.getPlugin(Stagehand.class), spawnerTypeTag);
+
+        if (!container.has(spawnerTypeKey, PersistentDataType.STRING))
             return;
 
-        // Convert the string from the NBT to an entity type and set the spawner type
-        final var type = EntityType.valueOf(nbti.getString(spawnerTypeTag));
+        final var type = EntityType.valueOf(container.get(spawnerTypeKey, PersistentDataType.STRING));
+
         final var spawner = (CreatureSpawner) block.getState();
         spawner.setSpawnedType(type);
         spawner.update();
     }
+
 }
