@@ -8,6 +8,7 @@ import org.bukkit.entity.Parrot;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -78,6 +79,21 @@ public class TrailMix extends BaseArtifact implements Listener {
 
         e.setCancelled(true);
         e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30 * 15, 0));
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        if (!isArtifact(e.getPlayer().getInventory().getItemInMainHand()))
+            return;
+
+        final var block = e.getClickedBlock();
+        if (block == null)
+            return;
+
+        if (!(block.getType().equals(Material.FARMLAND) || block.getType().equals(Material.COMPOSTER)))
+            return;
+
+        e.setCancelled(true);
     }
 
     // crafting recipe
