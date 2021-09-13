@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 
 import io.lhjt.minecraft.commands.CommandManager;
 import io.lhjt.minecraft.modules.RandomSpawn;
+import io.lhjt.minecraft.modules.artifacts.instatame.Infinibone;
 import io.lhjt.minecraft.utils.EventLoader;
 
 @Plugin(name = "stagehand", version = "0.6.1-alpha")
@@ -38,6 +39,9 @@ public class Stagehand extends JavaPlugin {
 
         // Register all listeners
         EventLoader.loadEvents(this);
+
+        // Register recipes
+        this.getServer().addRecipe(Infinibone.getRecipe());
     }
 
     @Override
