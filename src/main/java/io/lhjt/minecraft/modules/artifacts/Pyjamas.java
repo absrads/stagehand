@@ -1,8 +1,7 @@
 package io.lhjt.minecraft.modules.artifacts;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Material;
@@ -29,10 +28,10 @@ public class Pyjamas extends BaseArtifact implements Listener {
     protected static Material material = Material.LEATHER_CHESTPLATE; // TODO: change colour of tunic
     protected static String name = "chestplate.pyjamas";
 
-    private List<Material> bedsList = Arrays.asList(Material.RED_BED, Material.BLUE_BED, Material.CYAN_BED,
-            Material.GREEN_BED, Material.LIGHT_BLUE_BED, Material.LIGHT_GRAY_BED, Material.LIME_BED,
-            Material.MAGENTA_BED, Material.ORANGE_BED, Material.PINK_BED, Material.PURPLE_BED, Material.YELLOW_BED,
-            Material.WHITE_BED, Material.MAGENTA_BED, Material.GRAY_BED, Material.BROWN_BED, Material.BLACK_BED);
+    private Set<Material> bedsList = Set.of(Material.RED_BED, Material.BLUE_BED, Material.CYAN_BED, Material.GREEN_BED,
+            Material.LIGHT_BLUE_BED, Material.LIGHT_GRAY_BED, Material.LIME_BED, Material.MAGENTA_BED,
+            Material.ORANGE_BED, Material.PINK_BED, Material.PURPLE_BED, Material.YELLOW_BED, Material.WHITE_BED,
+            Material.MAGENTA_BED, Material.GRAY_BED, Material.BROWN_BED, Material.BLACK_BED);
 
     public static ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
