@@ -13,8 +13,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,6 +20,7 @@ import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.Stagehand;
 import io.lhjt.minecraft.modules.artifacts.Artifact;
 import io.lhjt.minecraft.modules.artifacts.BaseArtifact;
+import io.lhjt.minecraft.modules.artifacts.utils.BaseEffects;
 import io.lhjt.minecraft.modules.artifacts.utils.LegendaryBase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -94,9 +93,7 @@ public class EscapeRope extends BaseArtifact implements Listener {
         final var resultLoc = new Location(world, xCoordinate, yCoordinate + 1, zCoordinate);
 
         p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount() - 1);
-        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 3 * 20, 100));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3 * 20, 100));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 3 * 20, 250));
+        BaseEffects.blindAndImmobilise(p, 3 * 20);
 
         new BukkitRunnable() {
             @Override
