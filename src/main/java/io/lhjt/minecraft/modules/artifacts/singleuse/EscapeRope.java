@@ -93,7 +93,7 @@ public class EscapeRope extends BaseArtifact implements Listener {
         final var yCoordinate = world.getHighestBlockYAt(xCoordinate, zCoordinate);
         final var resultLoc = new Location(world, xCoordinate, yCoordinate + 1, zCoordinate);
 
-        p.getInventory().getItemInMainHand().setAmount(0);
+        p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount() - 1);
         p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 3 * 20, 100));
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3 * 20, 100));
         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 3 * 20, 250));
