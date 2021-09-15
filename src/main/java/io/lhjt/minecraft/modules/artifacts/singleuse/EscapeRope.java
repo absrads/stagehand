@@ -7,9 +7,11 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World.Environment;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -104,6 +106,18 @@ public class EscapeRope extends BaseArtifact implements Listener {
                 p.teleport(resultLoc);
             }
         }.runTaskLater(Stagehand.getPlugin(Stagehand.class), 2 * 20);
+    }
+
+    @EventHandler
+    public void drop(EntityDeathEvent e) {
+        final var ent = e.getEntity().getType();
+        if (!ent.equals(EntityType.BAT))
+            return;
+
+        final var prob = Math.random();
+        // 25% chance of dropping on bat death
+        if (prob <= 0.25)
+            e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), createArtifact());
     }
 
     protected static boolean isArtifact(@Nullable ItemStack stack) {
