@@ -19,7 +19,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.javatuples.Pair;
-import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.Stagehand;
@@ -31,10 +30,10 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 @Artifact(name = "boots.magma")
 public class MagmaBoots extends BaseArtifact implements Listener {
-    protected static Material material = Material.NETHERITE_BOOTS;
-    protected static String name = "boots.magma";
+    protected Material material = Material.NETHERITE_BOOTS;
+    protected String name = "boots.magma";
 
-    public static ItemStack createArtifact() {
+    public ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
 
@@ -110,22 +109,5 @@ public class MagmaBoots extends BaseArtifact implements Listener {
                 }.runTaskLater(plugin, 10 * 20);
             }
         }
-    }
-
-    protected static boolean isArtifact(@Nullable ItemStack stack) {
-        if (stack == null)
-            return false;
-
-        if (stack.getType() != material)
-            return false;
-
-        final var nbti = new NBTItem(stack);
-        if (!nbti.hasKey(LegendaryBase.nameKey))
-            return false;
-
-        if (!nbti.getString(LegendaryBase.nameKey).equals(name))
-            return false;
-
-        return true;
     }
 }

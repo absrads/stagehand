@@ -1,7 +1,6 @@
 package io.lhjt.minecraft.modules.artifacts.utils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
 import io.lhjt.minecraft.modules.artifacts.Artifact;
+import io.lhjt.minecraft.modules.artifacts.BaseArtifact;
 
 public class ArtifactLoader {
     /**
@@ -39,14 +39,18 @@ public class ArtifactLoader {
     /**
      * @return A map of artifact name to artifact class.
      */
-    public static HashMap<String, Method> getArtifactsMap() {
-        var artifacts = new HashMap<String, Method>();
+    public static HashMap<String, BaseArtifact> getArtifactsMap() {
+        var artifacts = new HashMap<String, BaseArtifact>();
         var ref = new Reflections("io.lhjt.minecraft.modules");
 
         for (Class<?> c : ref.getTypesAnnotatedWith(Artifact.class)) {
             try {
-                artifacts.put(c.getAnnotation(Artifact.class).name(), c.getMethod("createArtifact"));
-            } catch (NoSuchMethodException | SecurityException e) {
+                // artifacts.put(c.getAnnotation(Artifact.class).name(),
+                // c.getMethod("createArtifact"));
+                artifacts.put(c.getAnnotation(Artifact.class).name(),
+                        (BaseArtifact) c.getDeclaredConstructor().newInstance());
+            } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+                    | IllegalArgumentException | InvocationTargetException e) {
             }
         }
 

@@ -1,6 +1,5 @@
 package io.lhjt.minecraft.commands;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,9 +47,9 @@ public class SummonArtifactCommand implements TabExecutor {
             if (artifacts.containsKey(artifactType)) {
                 final var artifact = artifacts.get(artifactType);
                 try {
-                    player.getInventory().addItem((ItemStack) artifact.invoke(null));
+                    player.getInventory().addItem((ItemStack) artifact.createArtifact());
                     return true;
-                } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+                } catch (IllegalArgumentException e) {
                     final var msg = Component.text("Failed to summon artifact: " + artifactType)
                             .color(NamedTextColor.RED);
                     player.sendMessage(msg);

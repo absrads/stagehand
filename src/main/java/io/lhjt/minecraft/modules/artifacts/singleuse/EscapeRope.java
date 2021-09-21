@@ -16,7 +16,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.Stagehand;
@@ -31,10 +30,10 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 @Artifact(name = "escape.rope")
 public class EscapeRope extends BaseArtifact implements Listener {
-    protected static Material material = Material.LEAD;
-    protected static String name = "escape.rope";
+    protected Material material = Material.LEAD;
+    protected String name = "escape.rope";
 
-    public static ItemStack createArtifact() {
+    public ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
 
@@ -118,22 +117,5 @@ public class EscapeRope extends BaseArtifact implements Listener {
         // 25% chance of dropping on bat death
         if (prob <= 0.25)
             e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), createArtifact());
-    }
-
-    protected static boolean isArtifact(@Nullable ItemStack stack) {
-        if (stack == null)
-            return false;
-
-        if (stack.getType() != material)
-            return false;
-
-        final var nbti = new NBTItem(stack);
-        if (!nbti.hasKey(LegendaryBase.nameKey))
-            return false;
-
-        if (!nbti.getString(LegendaryBase.nameKey).equals(name))
-            return false;
-
-        return true;
     }
 }

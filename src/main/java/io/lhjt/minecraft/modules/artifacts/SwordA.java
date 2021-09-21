@@ -19,7 +19,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.modules.artifacts.utils.LegendaryBase;
@@ -31,12 +30,12 @@ import net.kyori.adventure.text.format.TextDecoration;
 // @Artifact(name = "SwordA", type = ArtifactType.SWORD, level = 1)
 @Artifact(name = "sword.a")
 public class SwordA extends BaseArtifact implements Listener {
-    protected static Material material = Material.NETHERITE_SWORD;
-    protected static String name = "sword.a";
+    protected Material material = Material.NETHERITE_SWORD;
+    protected String name = "sword.a";
 
     private static HashMap<UUID, Long> lastKill = new HashMap<>();
 
-    public static ItemStack createArtifact() {
+    public ItemStack createArtifact() {
         final var swordA = new ItemStack(material);
         final var meta = swordA.getItemMeta();
 
@@ -136,29 +135,6 @@ public class SwordA extends BaseArtifact implements Listener {
         } else {
             player.removePotionEffect(PotionEffectType.NIGHT_VISION);
         }
-    }
-
-    /**
-     * Validates if the given ItemStack is an artifact.
-     *
-     * @param stack ItemStack to validate.
-     * @return True if the given ItemStack is an artifact.
-     */
-    protected static boolean isArtifact(@Nullable ItemStack stack) {
-        if (stack == null)
-            return false;
-
-        if (stack.getType() != material)
-            return false;
-
-        final var nbti = new NBTItem(stack);
-        if (!nbti.hasKey(LegendaryBase.nameKey))
-            return false;
-
-        if (!nbti.getString(LegendaryBase.nameKey).equals(name))
-            return false;
-
-        return true;
     }
 
     private long getLastKillTime(Player player) throws Exception {

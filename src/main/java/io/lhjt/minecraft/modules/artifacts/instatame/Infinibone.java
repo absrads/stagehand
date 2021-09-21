@@ -11,7 +11,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.Stagehand;
@@ -25,10 +24,10 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 @Artifact(name = "bone.infinite")
 public class Infinibone extends BaseArtifact implements Listener {
-    protected static Material material = Material.BONE;
-    protected static String name = "bone.infinite";
+    protected Material material = Material.BONE;
+    protected String name = "bone.infinite";
 
-    public static ItemStack createArtifact() {
+    public ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
 
@@ -69,7 +68,7 @@ public class Infinibone extends BaseArtifact implements Listener {
     }
 
     // crafting recipe
-    public static ShapedRecipe getRecipe() {
+    public ShapedRecipe getRecipe() {
         final var plugin = Stagehand.getPlugin(Stagehand.class);
 
         final var item = createArtifact();
@@ -82,22 +81,5 @@ public class Infinibone extends BaseArtifact implements Listener {
         recipe.setIngredient('R', Material.RABBIT_FOOT);
         recipe.setIngredient('M', Material.MUTTON);
         return recipe;
-    }
-
-    protected static boolean isArtifact(@Nullable ItemStack stack) {
-        if (stack == null)
-            return false;
-
-        if (stack.getType() != material)
-            return false;
-
-        final var nbti = new NBTItem(stack);
-        if (!nbti.hasKey(LegendaryBase.nameKey))
-            return false;
-
-        if (!nbti.getString(LegendaryBase.nameKey).equals(name))
-            return false;
-
-        return true;
     }
 }

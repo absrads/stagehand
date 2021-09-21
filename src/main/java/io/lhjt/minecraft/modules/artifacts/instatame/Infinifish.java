@@ -14,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.Stagehand;
@@ -28,10 +27,10 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 @Artifact(name = "fish.infinite")
 public class Infinifish extends BaseArtifact implements Listener {
-    protected static Material material = Material.SALMON;
-    protected static String name = "fish.infinite";
+    protected Material material = Material.SALMON;
+    protected String name = "fish.infinite";
 
-    public static ItemStack createArtifact() {
+    public ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
 
@@ -81,7 +80,7 @@ public class Infinifish extends BaseArtifact implements Listener {
     }
 
     // crafting recipe
-    public static ShapedRecipe getRecipe() {
+    public ShapedRecipe getRecipe() {
         final var plugin = Stagehand.getPlugin(Stagehand.class);
 
         final var item = createArtifact();
@@ -97,22 +96,5 @@ public class Infinifish extends BaseArtifact implements Listener {
         recipe.setIngredient('D', Material.COD);
         recipe.setIngredient('M', Material.MILK_BUCKET);
         return recipe;
-    }
-
-    protected static boolean isArtifact(@Nullable ItemStack stack) {
-        if (stack == null)
-            return false;
-
-        if (stack.getType() != material)
-            return false;
-
-        final var nbti = new NBTItem(stack);
-        if (!nbti.hasKey(LegendaryBase.nameKey))
-            return false;
-
-        if (!nbti.getString(LegendaryBase.nameKey).equals(name))
-            return false;
-
-        return true;
     }
 }

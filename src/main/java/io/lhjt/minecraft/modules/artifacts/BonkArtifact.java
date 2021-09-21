@@ -30,10 +30,10 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 @Artifact(name = "bonk")
 public class BonkArtifact extends BaseArtifact implements Listener {
-    protected static Material material = Material.GOLDEN_SHOVEL;
-    protected static String name = "bonk";
+    protected Material material = Material.GOLDEN_SHOVEL;
+    protected String name = "bonk";
 
-    public static ItemStack createArtifact() {
+    public ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
 
@@ -117,7 +117,7 @@ public class BonkArtifact extends BaseArtifact implements Listener {
      * @param stack ItemStack to validate.
      * @return True if the given ItemStack is an artifact.
      */
-    protected static boolean isArtifact(@Nullable ItemStack stack) {
+    protected boolean isArtifact(@Nullable ItemStack stack) {
         if (stack == null)
             return false;
 

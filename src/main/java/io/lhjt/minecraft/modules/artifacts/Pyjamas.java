@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.modules.artifacts.utils.LegendaryBase;
@@ -25,15 +24,15 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 @Artifact(name = "chestplate.pyjamas")
 public class Pyjamas extends BaseArtifact implements Listener {
-    protected static Material material = Material.LEATHER_CHESTPLATE; // TODO: change colour of tunic
-    protected static String name = "chestplate.pyjamas";
+    protected Material material = Material.LEATHER_CHESTPLATE; // TODO: change colour of tunic
+    protected String name = "chestplate.pyjamas";
 
     private Set<Material> bedsList = Set.of(Material.RED_BED, Material.BLUE_BED, Material.CYAN_BED, Material.GREEN_BED,
             Material.LIGHT_BLUE_BED, Material.LIGHT_GRAY_BED, Material.LIME_BED, Material.MAGENTA_BED,
             Material.ORANGE_BED, Material.PINK_BED, Material.PURPLE_BED, Material.YELLOW_BED, Material.WHITE_BED,
             Material.MAGENTA_BED, Material.GRAY_BED, Material.BROWN_BED, Material.BLACK_BED);
 
-    public static ItemStack createArtifact() {
+    public ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
 
@@ -99,20 +98,4 @@ public class Pyjamas extends BaseArtifact implements Listener {
         e.getPlayer().sendMessage(m);
     }
 
-    protected static boolean isArtifact(@Nullable ItemStack stack) {
-        if (stack == null)
-            return false;
-
-        if (stack.getType() != material)
-            return false;
-
-        final var nbti = new NBTItem(stack);
-        if (!nbti.hasKey(LegendaryBase.nameKey))
-            return false;
-
-        if (!nbti.getString(LegendaryBase.nameKey).equals(name))
-            return false;
-
-        return true;
-    }
 }

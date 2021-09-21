@@ -17,7 +17,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.javatuples.Pair;
-import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.modules.artifacts.utils.LegendaryBase;
@@ -28,10 +27,10 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 @Artifact(name = "boots.hoe")
 public class HoeBoots extends BaseArtifact implements Listener {
-    protected static Material material = Material.NETHERITE_BOOTS;
-    protected static String name = "boots.hoe";
+    protected Material material = Material.NETHERITE_BOOTS;
+    protected String name = "boots.hoe";
 
-    public static ItemStack createArtifact() {
+    public ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
 
@@ -92,22 +91,5 @@ public class HoeBoots extends BaseArtifact implements Listener {
                 blockAbove.breakNaturally();
             }
         }
-    }
-
-    protected static boolean isArtifact(@Nullable ItemStack stack) {
-        if (stack == null)
-            return false;
-
-        if (stack.getType() != material)
-            return false;
-
-        final var nbti = new NBTItem(stack);
-        if (!nbti.hasKey(LegendaryBase.nameKey))
-            return false;
-
-        if (!nbti.getString(LegendaryBase.nameKey).equals(name))
-            return false;
-
-        return true;
     }
 }
