@@ -44,10 +44,10 @@ public class Stagehand extends JavaPlugin {
         EventLoader.loadEvents(this);
 
         // Register recipes
-        this.getServer().addRecipe(new Infinibone().getRecipe());
-        this.getServer().addRecipe(new Infinifish().getRecipe());
-        this.getServer().addRecipe(new TrailMix().getRecipe());
-        this.getServer().addRecipe(new Kibble().getRecipe());
+        this.getServer().addRecipe(Infinibone.getRecipe());
+        this.getServer().addRecipe(Infinifish.getRecipe());
+        this.getServer().addRecipe(TrailMix.getRecipe());
+        this.getServer().addRecipe(Kibble.getRecipe());
     }
 
     @Override

@@ -18,6 +18,7 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.Stagehand;
@@ -31,10 +32,10 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 @Artifact(name = "tame.infinite")
 public class Kibble extends BaseArtifact implements Listener {
-    protected Material material = Material.GLOW_BERRIES;
-    protected String name = "tame.infinite";
+    protected static Material material = Material.GLOW_BERRIES;
+    protected static String name = "tame.infinite";
 
-    public ItemStack createArtifact() {
+    public static ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
 
@@ -75,7 +76,7 @@ public class Kibble extends BaseArtifact implements Listener {
     }
 
     // crafting recipe
-    public ShapedRecipe getRecipe() {
+    public static ShapedRecipe getRecipe() {
         final var plugin = Stagehand.getPlugin(Stagehand.class);
 
         final var item = createArtifact();
@@ -83,9 +84,9 @@ public class Kibble extends BaseArtifact implements Listener {
         final var recipe = new ShapedRecipe(key, item);
 
         recipe.shape("   ", "BFT", "   ");
-        recipe.setIngredient('B', new RecipeChoice.ExactChoice(new Infinibone().createArtifact()));
-        recipe.setIngredient('F', new RecipeChoice.ExactChoice(new Infinifish().createArtifact()));
-        recipe.setIngredient('T', new RecipeChoice.ExactChoice(new TrailMix().createArtifact()));
+        recipe.setIngredient('B', new RecipeChoice.ExactChoice(Infinibone.createArtifact()));
+        recipe.setIngredient('F', new RecipeChoice.ExactChoice(Infinifish.createArtifact()));
+        recipe.setIngredient('T', new RecipeChoice.ExactChoice(TrailMix.createArtifact()));
         return recipe;
     }
 
@@ -99,4 +100,20 @@ public class Kibble extends BaseArtifact implements Listener {
         e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 20 * 60, 0));
     }
 
+    protected static boolean isArtifact(@Nullable ItemStack stack) {
+        if (stack == null)
+            return false;
+
+        if (stack.getType() != material)
+            return false;
+
+        final var nbti = new NBTItem(stack);
+        if (!nbti.hasKey(LegendaryBase.nameKey))
+            return false;
+
+        if (!nbti.getString(LegendaryBase.nameKey).equals(name))
+            return false;
+
+        return true;
+    }
 }

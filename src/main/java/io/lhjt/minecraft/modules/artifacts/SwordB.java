@@ -16,6 +16,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.Stagehand;
@@ -27,10 +28,10 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 @Artifact(name = "sword.b")
 public class SwordB extends BaseArtifact implements Listener {
-    private Material material = Material.NETHERITE_SWORD;
-    private String name = "sword.b";
+    private static Material material = Material.NETHERITE_SWORD;
+    private static String name = "sword.b";
 
-    public ItemStack createArtifact() {
+    public static ItemStack createArtifact() {
         final var swordB = new ItemStack(material);
         final var meta = swordB.getItemMeta();
 
@@ -91,5 +92,28 @@ public class SwordB extends BaseArtifact implements Listener {
                 player.setAbsorptionAmount(healthAfter);
             }
         }.runTaskLater(plugin, 15 * 20);
+    }
+
+    /**
+     * Validates if the given ItemStack is an artifact.
+     *
+     * @param stack ItemStack to validate.
+     * @return True if the given ItemStack is an artifact.
+     */
+    protected static boolean isArtifact(@Nullable ItemStack stack) {
+        if (stack == null)
+            return false;
+
+        if (stack.getType() != material)
+            return false;
+
+        final var nbti = new NBTItem(stack);
+        if (!nbti.hasKey(LegendaryBase.nameKey))
+            return false;
+
+        if (!nbti.getString(LegendaryBase.nameKey).equals(name))
+            return false;
+
+        return true;
     }
 }
