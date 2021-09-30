@@ -6,14 +6,11 @@ import java.util.UUID;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -58,12 +55,7 @@ public class FreezeAxe extends BaseArtifact implements Listener {
 
         meta.lore(loreTexts);
 
-        final var modifier = new AttributeModifier(UUID.randomUUID(), "generic.speed", 11.00,
-                AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET);
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, modifier);
-
-        // looting 2 enchant
-        meta.addEnchant(Enchantment.FROST_WALKER, 1, true);
+        meta.addEnchant(Enchantment.DAMAGE_ALL, 4, true);
 
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -96,12 +88,14 @@ public class FreezeAxe extends BaseArtifact implements Listener {
         if (!isArtifact(d.getInventory().getItemInMainHand()))
             return;
 
-        if (v.getFreezeTicks() > 0) {
+        if (v.getFreezeTicks() == 140) {
             v.setFreezeTicks(0);
             v.damage(2);
             v.getWorld().playSound(v.getLocation(), Sound.ENTITY_PLAYER_HURT_FREEZE, 1.0f, 1.0f);
-        } else
-            v.setFreezeTicks(140);
+        } else {
+            final var freezeTicks = v.getFreezeTicks();
+            v.setFreezeTicks(freezeTicks + 70);
+        }
 
         if (FreezeAxe.prevTasks.containsKey(v.getUniqueId())) {
             FreezeAxe.prevTasks.get(v.getUniqueId()).cancel();
@@ -115,8 +109,8 @@ public class FreezeAxe extends BaseArtifact implements Listener {
                     this.cancel();
                     return;
                 }
-
-                v.setFreezeTicks(140);
+                final var freezeTicks = v.getFreezeTicks();
+                v.setFreezeTicks(freezeTicks);
             }
         }.runTaskTimer(Stagehand.getPlugin(Stagehand.class), 1, 1);
 
