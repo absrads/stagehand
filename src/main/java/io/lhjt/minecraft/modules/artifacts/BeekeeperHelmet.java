@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -19,9 +20,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
+import io.lhjt.minecraft.Stagehand;
+import io.lhjt.minecraft.modules.artifacts.ingredients.RoyalJelly;
 import io.lhjt.minecraft.modules.artifacts.utils.LegendaryBase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -158,7 +163,19 @@ public class BeekeeperHelmet extends BaseArtifact implements Listener {
         } else {
             return;
         }
+    }
 
+    public static ShapedRecipe getRecipe() {
+        final var plugin = Stagehand.getPlugin(Stagehand.class);
+
+        final var item = createArtifact();
+        final var key = new NamespacedKey(plugin, name);
+        final var recipe = new ShapedRecipe(key, item);
+
+        recipe.shape("   ", "JH ", "   ");
+        recipe.setIngredient('J', new RecipeChoice.ExactChoice(RoyalJelly.createArtifact()));
+        recipe.setIngredient('H', Material.CHAINMAIL_HELMET);
+        return recipe;
     }
 
     protected static boolean isArtifact(@Nullable ItemStack stack) {

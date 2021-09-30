@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 
 import io.lhjt.minecraft.commands.CommandManager;
 import io.lhjt.minecraft.modules.RandomSpawn;
+import io.lhjt.minecraft.modules.artifacts.BeekeeperHelmet;
 import io.lhjt.minecraft.modules.artifacts.MagmaBoots;
 import io.lhjt.minecraft.modules.artifacts.instatame.Infinibone;
 import io.lhjt.minecraft.modules.artifacts.instatame.Infinifish;
@@ -50,6 +51,7 @@ public class Stagehand extends JavaPlugin {
         this.getServer().addRecipe(TrailMix.getRecipe());
         this.getServer().addRecipe(Kibble.getRecipe());
         this.getServer().addRecipe(MagmaBoots.getRecipe());
+        this.getServer().addRecipe(BeekeeperHelmet.getRecipe());
     }
 
     @Override
