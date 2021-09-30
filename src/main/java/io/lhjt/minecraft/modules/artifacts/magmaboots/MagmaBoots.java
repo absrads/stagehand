@@ -1,29 +1,30 @@
-package io.lhjt.minecraft.modules.artifacts;
+package io.lhjt.minecraft.modules.artifacts.magmaboots;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.javatuples.Pair;
 import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.Stagehand;
+import io.lhjt.minecraft.modules.artifacts.Artifact;
+import io.lhjt.minecraft.modules.artifacts.BaseArtifact;
 import io.lhjt.minecraft.modules.artifacts.utils.LegendaryBase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -59,12 +60,8 @@ public class MagmaBoots extends BaseArtifact implements Listener {
 
         meta.lore(loreTexts);
 
-        final var modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor", 4.00,
-                AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET);
-        meta.addAttributeModifier(Attribute.GENERIC_ARMOR, modifier);
-
-        // looting 2 enchant
         meta.addEnchant(Enchantment.FROST_WALKER, 1, true);
+        meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4, true);
 
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -133,5 +130,18 @@ public class MagmaBoots extends BaseArtifact implements Listener {
             return false;
 
         return true;
+    }
+
+    public static ShapedRecipe getRecipe() {
+        final var plugin = Stagehand.getPlugin(Stagehand.class);
+
+        final var item = createArtifact();
+        final var key = new NamespacedKey(plugin, name);
+        final var recipe = new ShapedRecipe(key, item);
+
+        recipe.shape(" C ", " N ", "   ");
+        recipe.setIngredient('C', new RecipeChoice.ExactChoice(LavaCrystalliser.createArtifact()));
+        recipe.setIngredient('N', new RecipeChoice.MaterialChoice(Material.NETHERITE_BOOTS));
+        return recipe;
     }
 }
