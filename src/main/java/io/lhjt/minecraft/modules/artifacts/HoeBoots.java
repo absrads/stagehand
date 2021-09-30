@@ -3,64 +3,52 @@ package io.lhjt.minecraft.modules.artifacts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Levelled;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.javatuples.Pair;
 import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
-import io.lhjt.minecraft.Stagehand;
-import io.lhjt.minecraft.modules.artifacts.ingredients.LavaCrystalliser;
 import io.lhjt.minecraft.modules.artifacts.utils.LegendaryBase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
-@Artifact(name = "boots.magma")
-public class MagmaBoots extends BaseArtifact implements Listener {
+@Artifact(name = "boots.hoe")
+public class HoeBoots extends BaseArtifact implements Listener {
     protected static Material material = Material.NETHERITE_BOOTS;
-    protected static String name = "boots.magma";
+    protected static String name = "boots.hoe";
 
     public static ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
 
-        final TextComponent swordTitle = Component.text("Magma Treads").color(NamedTextColor.DARK_RED)
+        final TextComponent swordTitle = Component.text("Tilling Treads").color(NamedTextColor.DARK_RED)
                 .decoration(TextDecoration.ITALIC, false);
         meta.displayName(swordTitle);
 
         final var loreTexts = new ArrayList<Component>();
-        final var firstLine = Component.text("Comfy!").color(NamedTextColor.DARK_PURPLE);
+        final var firstLine = Component.text("hoes but for your feet lmao").color(NamedTextColor.DARK_PURPLE);
         loreTexts.add(firstLine);
-        loreTexts.add(Component.text(""));
-        final var secondLine = Component.text("Legendary Gear").color(NamedTextColor.GOLD)
-                .decorate(TextDecoration.BOLD);
-        final var thirdLine = Component.text("- only one piece of legendary").color(NamedTextColor.GOLD)
-                .decoration(TextDecoration.ITALIC, false);
-        final var fourthLine = Component.text("gear can be equipped at once").color(NamedTextColor.GOLD)
-                .decoration(TextDecoration.ITALIC, false);
-        loreTexts.add(secondLine);
-        loreTexts.add(thirdLine);
-        loreTexts.add(fourthLine);
-
         meta.lore(loreTexts);
 
-        meta.addEnchant(Enchantment.FROST_WALKER, 1, true);
-        meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4, true);
+        final var modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor", 2.00,
+                AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET);
+        meta.addAttributeModifier(Attribute.GENERIC_ARMOR, modifier);
+
+        meta.addEnchant(Enchantment.RIPTIDE, 1, true);
 
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -77,7 +65,6 @@ public class MagmaBoots extends BaseArtifact implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        final var plugin = Stagehand.getPlugin(Stagehand.class);
         final var player = e.getPlayer();
         final var boots = player.getInventory().getBoots();
 
@@ -96,20 +83,13 @@ public class MagmaBoots extends BaseArtifact implements Listener {
 
         for (Pair<Integer, Integer> pair : list) {
             final var block = blockBelow.getRelative(pair.getValue0(), 0, pair.getValue1());
-            if (block.getBlockData() instanceof Levelled) {
-                final var data = (Levelled) block.getBlockData();
+            if (block.getType() == Material.GRASS_BLOCK || block.getType() == Material.DIRT) {
+                block.setType(Material.FARMLAND);
+            }
 
-                if (data.getLevel() != 0 || !block.getType().equals(Material.LAVA))
-                    return;
-
-                block.setType(Material.BASALT);
-                e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.05f, 1.0f);
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        block.setType(Material.LAVA);
-                    }
-                }.runTaskLater(plugin, 10 * 20);
+            final var blockAbove = locationBlock.getRelative(pair.getValue0(), 0, pair.getValue1());
+            if (blockAbove.getType() == Material.GRASS) {
+                blockAbove.breakNaturally();
             }
         }
     }
@@ -129,18 +109,5 @@ public class MagmaBoots extends BaseArtifact implements Listener {
             return false;
 
         return true;
-    }
-
-    public static ShapedRecipe getRecipe() {
-        final var plugin = Stagehand.getPlugin(Stagehand.class);
-
-        final var item = createArtifact();
-        final var key = new NamespacedKey(plugin, name);
-        final var recipe = new ShapedRecipe(key, item);
-
-        recipe.shape("   ", "CN ", "   ");
-        recipe.setIngredient('C', new RecipeChoice.ExactChoice(LavaCrystalliser.createArtifact()));
-        recipe.setIngredient('N', new RecipeChoice.MaterialChoice(Material.NETHERITE_BOOTS));
-        return recipe;
     }
 }
