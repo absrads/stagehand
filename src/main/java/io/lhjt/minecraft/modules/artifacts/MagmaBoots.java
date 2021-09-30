@@ -10,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -99,7 +100,12 @@ public class MagmaBoots extends BaseArtifact implements Listener {
 
         for (Pair<Integer, Integer> pair : list) {
             final var block = blockBelow.getRelative(pair.getValue0(), 0, pair.getValue1());
-            if (block.getType() == Material.LAVA) {
+            if (block.getBlockData() instanceof Levelled) {
+                final var data = (Levelled) block.getBlockData();
+
+                if (data.getLevel() != 0 || !block.getType().equals(Material.LAVA))
+                    return;
+
                 block.setType(Material.BASALT);
                 e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.05f, 1.0f);
                 new BukkitRunnable() {
