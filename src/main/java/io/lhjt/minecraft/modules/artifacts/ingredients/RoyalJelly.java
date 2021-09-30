@@ -24,7 +24,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
-@Artifact(name = "ingredient.magma.crystal")
+@Artifact(name = "ingredient.jelly")
 public class RoyalJelly extends BaseArtifact implements Listener {
     protected static Material material = Material.HONEY_BOTTLE;
     protected static String name = "ingredient.jelly";
