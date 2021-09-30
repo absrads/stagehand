@@ -1,4 +1,4 @@
-package io.lhjt.minecraft.modules.artifacts.magmaboots;
+package io.lhjt.minecraft.modules.artifacts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lhjt.minecraft.Stagehand;
-import io.lhjt.minecraft.modules.artifacts.Artifact;
-import io.lhjt.minecraft.modules.artifacts.BaseArtifact;
+import io.lhjt.minecraft.modules.artifacts.ingredients.LavaCrystalliser;
 import io.lhjt.minecraft.modules.artifacts.utils.LegendaryBase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -139,7 +138,7 @@ public class MagmaBoots extends BaseArtifact implements Listener {
         final var key = new NamespacedKey(plugin, name);
         final var recipe = new ShapedRecipe(key, item);
 
-        recipe.shape(" C ", " N ", "   ");
+        recipe.shape("   ", "CN ", "   ");
         recipe.setIngredient('C', new RecipeChoice.ExactChoice(LavaCrystalliser.createArtifact()));
         recipe.setIngredient('N', new RecipeChoice.MaterialChoice(Material.NETHERITE_BOOTS));
         return recipe;

@@ -14,11 +14,11 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 
 import io.lhjt.minecraft.commands.CommandManager;
 import io.lhjt.minecraft.modules.RandomSpawn;
+import io.lhjt.minecraft.modules.artifacts.MagmaBoots;
 import io.lhjt.minecraft.modules.artifacts.instatame.Infinibone;
 import io.lhjt.minecraft.modules.artifacts.instatame.Infinifish;
 import io.lhjt.minecraft.modules.artifacts.instatame.Kibble;
 import io.lhjt.minecraft.modules.artifacts.instatame.TrailMix;
-import io.lhjt.minecraft.modules.artifacts.magmaboots.MagmaBoots;
 import io.lhjt.minecraft.utils.EventLoader;
 
 @Plugin(name = "stagehand", version = "0.6.1-alpha")

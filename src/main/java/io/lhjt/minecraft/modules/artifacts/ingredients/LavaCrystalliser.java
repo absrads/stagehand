@@ -1,4 +1,4 @@
-package io.lhjt.minecraft.modules.artifacts.magmaboots;
+package io.lhjt.minecraft.modules.artifacts.ingredients;
 
 import java.util.ArrayList;
 
@@ -63,7 +63,7 @@ public class LavaCrystalliser extends BaseArtifact implements Listener {
             return;
 
         final var prob = Math.random();
-        // 1% chance of dropping on bat death
+        // 1% chance of dropping on magma cube death
         if (prob <= 0.01)
             e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), createArtifact());
     }
