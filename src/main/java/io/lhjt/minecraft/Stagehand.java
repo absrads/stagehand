@@ -23,7 +23,7 @@ import io.lhjt.minecraft.modules.artifacts.instatame.Kibble;
 import io.lhjt.minecraft.modules.artifacts.instatame.TrailMix;
 import io.lhjt.minecraft.utils.EventLoader;
 
-@Plugin(name = "stagehand", version = "0.7.1")
+@Plugin(name = "stagehand", version = "0.7.2-alpha")
 @ApiVersion(value = Target.v1_17)
 @Author(value = "lhjt")
 @Description(value = "A management plugin to set the scene of the server.")
