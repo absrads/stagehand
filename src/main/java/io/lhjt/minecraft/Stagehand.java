@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 import io.lhjt.minecraft.commands.CommandManager;
 import io.lhjt.minecraft.modules.RandomSpawn;
 import io.lhjt.minecraft.modules.artifacts.BeekeeperHelmet;
+import io.lhjt.minecraft.modules.artifacts.FreezeBow;
 import io.lhjt.minecraft.modules.artifacts.MagmaBoots;
 import io.lhjt.minecraft.modules.artifacts.instatame.Infinibone;
 import io.lhjt.minecraft.modules.artifacts.instatame.Infinifish;
@@ -22,7 +23,7 @@ import io.lhjt.minecraft.modules.artifacts.instatame.Kibble;
 import io.lhjt.minecraft.modules.artifacts.instatame.TrailMix;
 import io.lhjt.minecraft.utils.EventLoader;
 
-@Plugin(name = "stagehand", version = "0.7.0")
+@Plugin(name = "stagehand", version = "0.7.1")
 @ApiVersion(value = Target.v1_17)
 @Author(value = "lhjt")
 @Description(value = "A management plugin to set the scene of the server.")
@@ -52,6 +53,7 @@ public class Stagehand extends JavaPlugin {
         this.getServer().addRecipe(Kibble.getRecipe());
         this.getServer().addRecipe(MagmaBoots.getRecipe());
         this.getServer().addRecipe(BeekeeperHelmet.getRecipe());
+        this.getServer().addRecipe(FreezeBow.getRecipe());
     }
 
     @Override

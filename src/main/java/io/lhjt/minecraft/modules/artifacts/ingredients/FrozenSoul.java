@@ -3,16 +3,14 @@ package io.lhjt.minecraft.modules.artifacts.ingredients;
 import java.util.ArrayList;
 
 import org.bukkit.Material;
-import org.bukkit.block.data.type.Beehive;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
@@ -24,21 +22,21 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
-@Artifact(name = "ingredient.jelly")
-public class RoyalJelly extends BaseArtifact implements Listener {
-    protected static Material material = Material.HONEY_BOTTLE;
-    protected static String name = "ingredient.jelly";
+@Artifact(name = "ingredient.frozen.soul")
+public class FrozenSoul extends BaseArtifact implements Listener {
+    protected static Material material = Material.SOUL_LANTERN;
+    protected static String name = "ingredient.frozen.soul";
 
     public static ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
 
-        final TextComponent swordTitle = Component.text("Royal Jelly").color(NamedTextColor.GOLD)
+        final TextComponent swordTitle = Component.text("Frozen Soul").color(NamedTextColor.AQUA)
                 .decoration(TextDecoration.ITALIC, false);
         meta.displayName(swordTitle);
 
         final var loreTexts = new ArrayList<Component>();
-        final var firstLine = Component.text("Goes great with chainmail!").color(NamedTextColor.DARK_PURPLE);
+        final var firstLine = Component.text("I could imbue a weapon with it").color(NamedTextColor.DARK_PURPLE);
         loreTexts.add(firstLine);
 
         meta.lore(loreTexts);
@@ -59,42 +57,24 @@ public class RoyalJelly extends BaseArtifact implements Listener {
     }
     
     @EventHandler
-    public void drop(PlayerInteractEvent e) {
-
-        if (e.getClickedBlock() == null)
+    public void drop(EntityDeathEvent e) {
+        final var ent = e.getEntity().getType();
+        if (!ent.equals(EntityType.STRAY))
             return;
-        
-        final var block = e.getClickedBlock().getType();
-        if (!block.equals(Material.BEEHIVE) && !block.equals(Material.BEE_NEST))
-            return;
-
-        final var blockData = e.getClickedBlock().getBlockData();
-        if (!(blockData instanceof Beehive))
-            return;
-
-        final var honeyInfo = (Beehive) blockData;
-        if (honeyInfo.getHoneyLevel() != honeyInfo.getMaximumHoneyLevel())
-            return;
-
-        final var item = e.getPlayer().getInventory().getItemInMainHand();
-        if (item.getType() != Material.GLASS_BOTTLE)
-            return;
-
 
         final var prob = Math.random();
-        // 5% chance of adding to player's inventory after using a bottle on a hive
-        if (prob <= 0.05) {
-            e.getPlayer().getInventory().addItem(createArtifact());
-        }
+        // 1% chance of dropping on stray death
+        if (prob <= 0.01)
+            e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), createArtifact());
     }
 
     @EventHandler
-    public void onEat(PlayerItemConsumeEvent e) {
-        if (!isArtifact(e.getItem()))
+    public void place(PlayerInteractEvent e) {
+        final var item = e.getPlayer().getInventory().getItemInMainHand();
+        if (!isArtifact(item))
             return;
 
         e.setCancelled(true);
-        e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30 * 15, 0));
     }
 
     protected static boolean isArtifact(@Nullable ItemStack stack) {
