@@ -84,7 +84,6 @@ public class FreezeBow extends BaseArtifact implements Listener {
 
     @EventHandler
     public void onEntDamgage(EntityDamageByEntityEvent e) {
-
         final var damager = e.getDamager();
         final var victim = e.getEntity();
 
