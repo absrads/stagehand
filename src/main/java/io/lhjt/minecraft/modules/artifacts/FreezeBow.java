@@ -116,7 +116,6 @@ public class FreezeBow extends BaseArtifact implements Listener {
             final var freezeTicks = v.getFreezeTicks();
             v.setFreezeTicks(freezeTicks + 70);
         }
-    
 
         if (FreezeBow.prevTasks.containsKey(v.getUniqueId())) {
             FreezeBow.prevTasks.get(v.getUniqueId()).cancel();
