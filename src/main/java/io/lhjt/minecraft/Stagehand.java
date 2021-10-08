@@ -16,6 +16,7 @@ import io.lhjt.minecraft.commands.CommandManager;
 import io.lhjt.minecraft.modules.RandomSpawn;
 import io.lhjt.minecraft.modules.artifacts.BeekeeperHelmet;
 import io.lhjt.minecraft.modules.artifacts.FreezeBow;
+import io.lhjt.minecraft.modules.artifacts.HoeBoots;
 import io.lhjt.minecraft.modules.artifacts.MagmaBoots;
 import io.lhjt.minecraft.modules.artifacts.instatame.Infinibone;
 import io.lhjt.minecraft.modules.artifacts.instatame.Infinifish;
@@ -54,6 +55,7 @@ public class Stagehand extends JavaPlugin {
         this.getServer().addRecipe(MagmaBoots.getRecipe());
         this.getServer().addRecipe(BeekeeperHelmet.getRecipe());
         this.getServer().addRecipe(FreezeBow.getRecipe());
+        this.getServer().addRecipe(HoeBoots.getRecipe());
     }
 
     @Override

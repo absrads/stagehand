@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockFace;
@@ -16,10 +17,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
 import org.javatuples.Pair;
 import org.jetbrains.annotations.Nullable;
 
 import de.tr7zw.nbtapi.NBTItem;
+import io.lhjt.minecraft.Stagehand;
+import io.lhjt.minecraft.modules.artifacts.ingredients.GoldenFleece;
 import io.lhjt.minecraft.modules.artifacts.utils.LegendaryBase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -28,14 +33,14 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 @Artifact(name = "boots.hoe")
 public class HoeBoots extends BaseArtifact implements Listener {
-    protected static Material material = Material.NETHERITE_BOOTS;
+    protected static Material material = Material.LEATHER_BOOTS;
     protected static String name = "boots.hoe";
 
     public static ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
 
-        final TextComponent swordTitle = Component.text("Tilling Treads").color(NamedTextColor.DARK_RED)
+        final TextComponent swordTitle = Component.text("Tilling Treads").color(NamedTextColor.GREEN)
                 .decoration(TextDecoration.ITALIC, false);
         meta.displayName(swordTitle);
 
@@ -109,5 +114,18 @@ public class HoeBoots extends BaseArtifact implements Listener {
             return false;
 
         return true;
+    }
+
+    public static ShapedRecipe getRecipe() {
+        final var plugin = Stagehand.getPlugin(Stagehand.class);
+
+        final var item = createArtifact();
+        final var key = new NamespacedKey(plugin, name);
+        final var recipe = new ShapedRecipe(key, item);
+
+        recipe.shape("   ", "CN ", "   ");
+        recipe.setIngredient('C', new RecipeChoice.ExactChoice(GoldenFleece.createArtifact()));
+        recipe.setIngredient('N', new RecipeChoice.MaterialChoice(Material.LEATHER_BOOTS));
+        return recipe;
     }
 }
