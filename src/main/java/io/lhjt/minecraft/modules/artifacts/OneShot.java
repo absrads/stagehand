@@ -140,9 +140,7 @@ public class OneShot extends BaseArtifact implements Listener {
 
             @Override
             public void run() {
-
                 proj.setVelocity(proj.getVelocity().multiply(2));
-                ;
 
                 crashPrevent++;
                 if (crashPrevent == 14)
@@ -183,7 +181,6 @@ public class OneShot extends BaseArtifact implements Listener {
 
     @EventHandler
     public void onHeal(EntityRegainHealthEvent e) {
-
         final var entity = e.getEntity();
 
         if (!(entity instanceof Player))
