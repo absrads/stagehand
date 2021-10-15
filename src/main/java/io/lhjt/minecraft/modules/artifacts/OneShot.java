@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -34,6 +35,8 @@ public class OneShot extends BaseArtifact implements Listener {
     protected static Material material = Material.BOW;
     protected static String name = "bow.one.shot";
 
+    private int hasEnoughArrows = 0;
+
     public static ItemStack createArtifact() {
         final var artifact = new ItemStack(material);
         final var meta = artifact.getItemMeta();
@@ -43,7 +46,7 @@ public class OneShot extends BaseArtifact implements Listener {
         meta.displayName(swordTitle);
 
         final var loreTexts = new ArrayList<Component>();
-        final var firstLine = Component.text("hehe bonk").color(NamedTextColor.DARK_PURPLE);
+        final var firstLine = Component.text("Arrow speed increases exponentially").color(NamedTextColor.DARK_PURPLE);
         loreTexts.add(firstLine);
         loreTexts.add(Component.text(""));
         final var castHeading = Component.text("Cooldown:").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC,
@@ -93,8 +96,29 @@ public class OneShot extends BaseArtifact implements Listener {
         if (!isArtifact(e.getBow()))
             return;
 
-        final var proj = e.getProjectile();
         final var force = e.getForce();
+        final var contents = s.getInventory().getContents();
+        // check each item in the inventory
+        for (final var item : contents) {
+            if (item == null) {
+                continue;
+            }
+
+            if (item.getType().equals(Material.ARROW) && item.getAmount() > 15 && hasEnoughArrows == 0) {
+                item.setAmount(item.getAmount() - (int) (16 * force));
+                hasEnoughArrows += 1;
+            }
+        }
+
+        if (hasEnoughArrows == 1) {
+            hasEnoughArrows -= 1;
+        } else if (hasEnoughArrows == 0) {
+            s.sendMessage("you need at least 16 arrows to fire");
+            e.setCancelled(true);
+            return;
+        }
+
+        final var proj = e.getProjectile();
 
         if (!(proj instanceof Arrow))
             return;
@@ -111,6 +135,7 @@ public class OneShot extends BaseArtifact implements Listener {
             arrow.setBounce(true);
         }
 
+        s.getInventory().getItemInOffHand().setAmount((int) (64 - 30 * force));
         new BukkitRunnable() {
             private int crashPrevent = 0;
 
@@ -188,6 +213,18 @@ public class OneShot extends BaseArtifact implements Listener {
                 e.setCancelled(true);
             }
         }
+    }
+
+    @EventHandler
+    public void drop(EntityDeathEvent e) {
+        final var ent = e.getEntity().getType();
+        if (!ent.equals(EntityType.MAGMA_CUBE))
+            return;
+
+        final var prob = Math.random();
+        // 1% chance of dropping on skeleton death
+        if (prob <= 0.01)
+            e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), createArtifact());
     }
 
     protected static boolean isArtifact(@Nullable ItemStack stack) {
