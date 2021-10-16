@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -46,7 +45,7 @@ public class OneShot extends BaseArtifact implements Listener {
         meta.displayName(swordTitle);
 
         final var loreTexts = new ArrayList<Component>();
-        final var firstLine = Component.text("Arrow speed increases exponentially").color(NamedTextColor.DARK_PURPLE);
+        final var firstLine = Component.text("hehe bonk").color(NamedTextColor.DARK_PURPLE);
         loreTexts.add(firstLine);
         loreTexts.add(Component.text(""));
         final var castHeading = Component.text("Cooldown:").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC,
@@ -105,7 +104,7 @@ public class OneShot extends BaseArtifact implements Listener {
             }
 
             if (item.getType().equals(Material.ARROW) && item.getAmount() > 15 && hasEnoughArrows == 0) {
-                item.setAmount(item.getAmount() - (int) (16 * force));
+                item.setAmount(64 - (int) (16 * force));
                 hasEnoughArrows += 1;
             }
         }
@@ -178,7 +177,7 @@ public class OneShot extends BaseArtifact implements Listener {
         v.getWorld().spawnEntity(v.getLocation(), EntityType.LIGHTNING);
         v.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 15 * 20, 3));
 
-        p.sendMessage("raw damage:" + String.valueOf(e.getDamage()));
+        p.sendMessage("raw damage:" + String.valueOf((int) e.getDamage()));
         p.sendMessage("post mitigation damage:" + String.valueOf((int) e.getFinalDamage()));
     }
 
@@ -213,18 +212,6 @@ public class OneShot extends BaseArtifact implements Listener {
                 e.setCancelled(true);
             }
         }
-    }
-
-    @EventHandler
-    public void drop(EntityDeathEvent e) {
-        final var ent = e.getEntity().getType();
-        if (!ent.equals(EntityType.MAGMA_CUBE))
-            return;
-
-        final var prob = Math.random();
-        // 1% chance of dropping on skeleton death
-        if (prob <= 0.01)
-            e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), createArtifact());
     }
 
     protected static boolean isArtifact(@Nullable ItemStack stack) {
